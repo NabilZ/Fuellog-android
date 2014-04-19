@@ -1,0 +1,35 @@
+
+*.dex
+
+*.class
+
+bin/
+gen/
+*.apk
+*.ap_
+.gradle/
+build/
+out/
+
+local.properties
+.DS_Store
+.AppleDouble
+.LSOverride
+
+Icon
+._*
+
+.idea/
+*.ipr
+*.iws
+*.iml
+.Spotlight-V100
+.Trashes
+.idea_modules/
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+
+proguard/
+
