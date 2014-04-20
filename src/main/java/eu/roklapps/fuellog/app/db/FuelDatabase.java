@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.roklapps.fuellog.app.ui.card.CarCard;
+import eu.roklapps.fuellog.app.ui.card.CardFuelListing;
 import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardHeader;
 
 public class FuelDatabase extends SQLiteOpenHelper {
     public static final String FUEL_TABLE = "fuel";
@@ -109,5 +111,29 @@ public class FuelDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.insert(CARS_TABLE, null, contentValues);
 
         sqLiteDatabase.close();
+    }
+
+    public ArrayList<Card> getAllFuelEntries() {
+        CardFuelListing card;
+        CardHeader header;
+        ArrayList<Card> cards = new ArrayList<>();
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(FUEL_TABLE, new String[]{FUEL_EVENT_DATE, FUEL_TOTAL_BOUGHT_FUEL, FUEL_USED_CAR}, null, null, null, null, FUEL_EVENT_DATE + " DESC");
+
+        if (cursor.moveToNext()) {
+            do {
+                card = new CardFuelListing(mContext);
+                card.setDateText(cursor.getString(0));
+                card.setCarText(cursor.getString(2));
+
+                header = new CardHeader(mContext);
+                header.setTitle(String.valueOf(cursor.getFloat(1)));
+            } while (cursor.moveToNext());
+        }
+        database.close();
+        cursor.close();
+
+        return cards;
     }
 }

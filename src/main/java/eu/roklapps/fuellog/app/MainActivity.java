@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import eu.roklapps.fuellog.app.sharedprefs.Prefs;
+import eu.roklapps.fuellog.app.ui.fragment.FuelListingFragmentFragment;
 import eu.roklapps.fuellog.app.ui.fragment.FuelRecordingFragment;
 import eu.roklapps.fuellog.app.ui.fragment.NavigationDrawerFragment;
 import eu.roklapps.fuellog.app.ui.fragment.carpark.CarAddFragment;
@@ -22,6 +23,7 @@ import static eu.roklapps.fuellog.app.ui.fragment.FuelRecordingFragment.OnFragme
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         CarparkFragment.OnFragmentInteractionListener,
+        FuelListingFragmentFragment.OnFragmentInteractionListener,
         OnFragmentInteractionListener {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -47,8 +49,10 @@ public class MainActivity extends Activity
     public void onNavigationDrawerItemSelected(int position) {
 
         Fragment fragment = null;
-        if (position == 1 || position == 0) {
+        if (position == 0) {
             fragment = new FuelRecordingFragment();
+        } else if (position == 1) {
+            fragment = new FuelListingFragmentFragment();
         } else if (position == 2) {
             fragment = getCarFragment();
         }

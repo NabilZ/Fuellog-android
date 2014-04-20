@@ -1,43 +1,34 @@
 package eu.roklapps.fuellog.app.ui.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import eu.roklapps.fuellog.app.R;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
+import java.util.List;
+
+import eu.roklapps.fuellog.app.R;
+import eu.roklapps.fuellog.app.db.FuelDatabase;
 import eu.roklapps.fuellog.app.ui.fragment.dummy.DummyContent;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardListView;
 
 
 public class FuelListingFragmentFragment extends Fragment implements AbsListView.OnItemClickListener {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
-    private AbsListView mListView;
-    private ListAdapter mAdapter;
-
-    public static FuelListingFragmentFragment newInstance(String param1, String param2) {
-        FuelListingFragmentFragment fragment = new FuelListingFragmentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    private CardArrayAdapter mAdapter;
+    private CardListView mCardListView;
+    private LinearLayout mUndoBar;
+    private Button mUndoBarButton;
 
     public FuelListingFragmentFragment() {
     }
@@ -46,13 +37,7 @@ public class FuelListingFragmentFragment extends Fragment implements AbsListView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        new FuelHistoryLoader().execute();
     }
 
     @Override
@@ -60,10 +45,11 @@ public class FuelListingFragmentFragment extends Fragment implements AbsListView
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fuellistingfragment, container, false);
 
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mCardListView = (CardListView) view.findViewById(R.id.fuel_card_listing);
+        mUndoBar = (LinearLayout) view.findViewById(R.id.undobar);
+        mUndoBarButton = (Button) view.findViewById(R.id.undobar_button);
 
-        mListView.setOnItemClickListener(this);
+        mUndoBar.setVisibility(View.INVISIBLE);
 
         return view;
     }
@@ -93,17 +79,27 @@ public class FuelListingFragmentFragment extends Fragment implements AbsListView
         }
     }
 
-
-    public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
-
-        if (emptyText instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
-        }
-    }
-
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(String id);
     }
 
+    private class FuelHistoryLoader extends AsyncTask<Void, Void, Void> {
+        private List<Card> mList;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            FuelDatabase database = new FuelDatabase(getActivity());
+
+            mList = database.getAllFuelEntries();
+
+            database.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mAdapter = new CardArrayAdapter(getActivity(), mList);
+            mCardListView.setAdapter(mAdapter);
+        }
+    }
 }
