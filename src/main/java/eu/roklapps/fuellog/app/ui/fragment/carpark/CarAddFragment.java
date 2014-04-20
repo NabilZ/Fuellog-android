@@ -15,10 +15,8 @@
  */
 package eu.roklapps.fuellog.app.ui.fragment.carpark;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.ContentValues;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,20 +24,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.Button;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import eu.roklapps.fuellog.app.R;
 import eu.roklapps.fuellog.app.db.FuelDatabase;
+import eu.roklapps.fuellog.app.sharedprefs.Prefs;
+import eu.roklapps.fuellog.app.ui.card.CarAddCard;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.view.CardView;
+
+import static android.view.View.OnClickListener;
 
 
-public class CarAddFragment extends Fragment {
+@SuppressWarnings("EmptyMethod")
+public class CarAddFragment extends Fragment implements OnClickListener {
     private static final String TAG = "CarAddFragment";
-    private Spinner mGasType;
-    private EditText mVendor;
-    private EditText mName;
+    private CarAddCard mCard;
+    private Button mSaveButton;
+
 
     public CarAddFragment() {
     }
@@ -68,49 +72,20 @@ public class CarAddFragment extends Fragment {
     }
 
     private void setupLayout(View fragmentView) {
-        final LayoutInflater inflater = (LayoutInflater) getActivity().getActionBar().getThemedContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View customActionBarView = inflater.inflate(
-                R.layout.actionbar_custom_view_done_cancel, null);
-        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        prepareSaving();
-                    }
-                }
-        );
-        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        restoreDefaultActionbar();
-                        dismissFragment();
-                    }
-                }
-        );
+        mCard = new CarAddCard(getActivity());
+        CardHeader header = new CardHeader(getActivity());
+        header.setTitle(getString(R.string.add_new_car));
+        mCard.addCardHeader(header);
+        CardView cardView = (CardView) fragmentView.findViewById(R.id.add_car_card);
 
-        // Show the custom action bar view and hide the normal Home icon and title.
-        final ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM,
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
-                        | ActionBar.DISPLAY_SHOW_TITLE
-        );
-        actionBar.setCustomView(customActionBarView,
-                new ActionBar.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT)
-        );
+        cardView.setCard(mCard);
 
-        mGasType = (Spinner) fragmentView.findViewById(R.id.gas_type_spinner);
-        mVendor = (EditText) fragmentView.findViewById(R.id.vendor);
-        mName = (EditText) fragmentView.findViewById(R.id.name);
+        mSaveButton = (Button) fragmentView.findViewById(R.id.save_changes);
+        mSaveButton.setOnClickListener(this);
     }
 
     private void prepareSaving() {
         if (isSavingAllowed()) {
-            restoreDefaultActionbar();
             new CarSaver().execute();
         }
     }
@@ -130,21 +105,21 @@ public class CarAddFragment extends Fragment {
     }
 
     private boolean isVendorFilled() {
-        return mVendor.getText().toString().length() > 0 && !mVendor.getText().toString().isEmpty();
+        return mCard.getVendor().getText().toString().length() > 0 && !mCard.getVendor().getText().toString().isEmpty();
     }
 
     private boolean isNameFilled() {
-        return mName.getText().toString().length() > 0 && !mName.getText().toString().isEmpty();
-    }
-
-    private void restoreDefaultActionbar() {
-        getActivity().getActionBar().setDisplayShowCustomEnabled(false);
-        getActivity().getActionBar().setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        return mCard.getName().getText().toString().length() > 0 && !mCard.getName().getText().toString().isEmpty();
     }
 
     private void dismissFragment() {
+        Prefs.setCarSubFragment(getActivity(), false);
         getActivity().getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onClick(View v) {
+        prepareSaving();
     }
 
     private class CarSaver extends AsyncTask<Void, Void, Void> {
@@ -152,9 +127,9 @@ public class CarAddFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             ContentValues contentValues = new ContentValues();
 
-            contentValues.put(FuelDatabase.CARS_VENDOR, mVendor.getText().toString());
-            contentValues.put(FuelDatabase.NAME, mName.getText().toString());
-            contentValues.put(FuelDatabase.GAS_TYPE_TABLE, mGasType.getSelectedItemId());
+            contentValues.put(FuelDatabase.CARS_VENDOR, mCard.getVendor().getText().toString());
+            contentValues.put(FuelDatabase.NAME, mCard.getName().getText().toString());
+            contentValues.put(FuelDatabase.GAS_TYPE_TABLE, mCard.getGasType().getSelectedItemId());
 
             FuelDatabase database = new FuelDatabase(getActivity());
             database.saveNewCar(contentValues);

@@ -19,7 +19,7 @@ public class CarCard extends Card {
         this(context, R.layout.card_carpark_single);
     }
 
-    public CarCard(Context context, int innerLayout) {
+    private CarCard(Context context, int innerLayout) {
         super(context, innerLayout);
     }
 

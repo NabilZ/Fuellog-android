@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import eu.roklapps.fuellog.app.R;
 import eu.roklapps.fuellog.app.db.FuelDatabase;
+import eu.roklapps.fuellog.app.sharedprefs.Prefs;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
@@ -75,6 +76,7 @@ public class CarparkFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         new CarParkLoader().execute();
+        Prefs.setCarSubFragment(getActivity(), false);
     }
 
     @Override

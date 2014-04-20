@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import eu.roklapps.fuellog.app.ui.card.CarCard;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -82,6 +83,24 @@ public class FuelDatabase extends SQLiteOpenHelper {
         database.close();
         cursor.close();
         return cars;
+    }
+
+    public List<String> getAllCarsAsList() {
+        List<String> mCars = new ArrayList<>();
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(CARS_TABLE, new String[]{NAME, CARS_VENDOR}, null, null, NAME, null, null);
+
+        StringBuilder builder;
+
+        if (cursor.moveToFirst()) {
+            do {
+                builder = new StringBuilder(cursor.getString(1)).append(" - ").append(cursor.getString(0));
+                mCars.add(builder.toString());
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        database.close();
+        return mCars;
     }
 
     public void saveNewCar(ContentValues contentValues) {

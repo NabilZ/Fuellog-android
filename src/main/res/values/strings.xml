@@ -7,9 +7,7 @@
     <string name="title_section3">Section 3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="price_per_unit">Price per unit</string>
     <string name="current_mileage">Mileage</string>
@@ -32,5 +30,19 @@
     <string name="undo">Undo</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
+
+    <string name="add_new_car">Add new car</string>
+
+    <string-array name="gas_types">
+        <item>Type 1</item>
+        <item>Type 2</item>
+        <item>Type 3</item>
+    </string-array>
+
+    <string-array name="currency">
+        <item>€</item>
+        <item>$</item>
+        <item>£</item>
+    </string-array>
 
 </resources>

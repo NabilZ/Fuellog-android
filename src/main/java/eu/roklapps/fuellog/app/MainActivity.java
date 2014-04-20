@@ -3,21 +3,17 @@ package eu.roklapps.fuellog.app;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import eu.roklapps.fuellog.app.ui.fragment.carpark.CarAddFragment;
-import eu.roklapps.fuellog.app.ui.fragment.carpark.CarparkFragment;
+import eu.roklapps.fuellog.app.sharedprefs.Prefs;
 import eu.roklapps.fuellog.app.ui.fragment.FuelRecordingFragment;
 import eu.roklapps.fuellog.app.ui.fragment.NavigationDrawerFragment;
+import eu.roklapps.fuellog.app.ui.fragment.carpark.CarAddFragment;
+import eu.roklapps.fuellog.app.ui.fragment.carpark.CarparkFragment;
 import eu.roklapps.fuellog.app.util.Utils;
 
 import static eu.roklapps.fuellog.app.ui.fragment.FuelRecordingFragment.OnFragmentInteractionListener;
@@ -49,18 +45,27 @@ public class MainActivity extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment;
-        if (position == 1) {
+
+        Fragment fragment = null;
+        if (position == 1 || position == 0) {
             fragment = new FuelRecordingFragment();
         } else if (position == 2) {
-            fragment = new CarparkFragment();
-        } else {
-            fragment = PlaceholderFragment.newInstance(position);
+            fragment = getCarFragment();
         }
-        fragmentManager.beginTransaction()
+        getFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+    }
+
+    private Fragment getCarFragment() {
+        boolean carFlag = Prefs.isCarSubFragmentActive(this);
+        Fragment fragment;
+        if (!carFlag) {
+            fragment = new CarparkFragment();
+        } else {
+            fragment = getFragmentManager().findFragmentById(R.id.container);
+        }
+        return fragment;
     }
 
     public void onSectionAttached(int number) {
@@ -116,42 +121,10 @@ public class MainActivity extends Activity
 
     @Override
     public void onAddNewCar() {
-
+        Prefs.setCarSubFragment(this, true);
         getFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.container, new CarAddFragment())
                 .commit();
-    }
-
-
-    public static class PlaceholderFragment extends Fragment {
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_create_new_entry, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 }

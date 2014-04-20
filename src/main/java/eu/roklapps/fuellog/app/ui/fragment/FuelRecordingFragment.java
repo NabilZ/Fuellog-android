@@ -16,12 +16,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.List;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import eu.roklapps.fuellog.app.R;
 import eu.roklapps.fuellog.app.asyncs.FuelSaver;
 import eu.roklapps.fuellog.app.callbacks.AsyncTaskSaveResult;
 import eu.roklapps.fuellog.app.db.FuelDatabase;
+import eu.roklapps.fuellog.app.sharedprefs.Prefs;
 
 
 public class FuelRecordingFragment extends Fragment implements View.OnClickListener,
@@ -38,16 +41,13 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
     private EditText mMileage;
     private EditText mBoughtFuel;
     private TextView mEventDate;
-
     private ArrayAdapter<String> mCarAdapter;
-    private ArrayAdapter<String> mGasAdapter;
-
     private OnFragmentInteractionListener mListener;
 
     public FuelRecordingFragment() {
     }
 
-    public static android.app.Fragment newInstance(long recordId) {
+    public static Fragment newInstance(long recordId) {
         FuelRecordingFragment fragment = new FuelRecordingFragment();
         Bundle args = new Bundle();
 
@@ -61,6 +61,9 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
         if (getArguments() != null) {
             mRecordId = getArguments().getLong(RECORD_ID);
         }
+        setRetainInstance(true);
+        Prefs.setCarSubFragment(getActivity(), false);
+        new CarParkLoader().execute();
     }
 
     @Override
@@ -140,15 +143,22 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
     }
 
     private class CarParkLoader extends AsyncTask<Void, Void, Void> {
+        private List<String> mItems;
 
         @Override
         protected Void doInBackground(Void... params) {
+            FuelDatabase database = new FuelDatabase(getActivity());
+
+            mItems = database.getAllCarsAsList();
+
+            database.close();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            mCarAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, mItems);
+            mCarSpinner.setAdapter(mCarAdapter);
         }
     }
 }
