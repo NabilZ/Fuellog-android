@@ -23,9 +23,14 @@
     <string name="carpark_add_new_car">Add car</string>
     <string name="vendor">Vendor</string>
     <string name="name">Name</string>
+    <string name="car_add_error_everything_empty">Vendor and name are required fields</string>
+    <string name="car_vendor_empty">Car vendor is required</string>
+    <string name="car_name_empty">Car name is required</string>
 
     <string name="action">Perform action</string>
     <string name="undobar_sample_message">Action performed.</string>
     <string name="undo">Undo</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

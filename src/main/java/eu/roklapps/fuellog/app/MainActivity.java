@@ -116,6 +116,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onAddNewCar() {
+
         getFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.container, new CarAddFragment())

@@ -4,42 +4,33 @@
     android:layout_height="match_parent"
     tools:context="eu.roklapps.fuellog.app.ui.fragment.carpark.CarAddFragment">
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_label"
-        android:id="@+id/save_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
+        android:id="@+id/vendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/vendor"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:hint="@string/vendor" />
 
     <EditText
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:layout_below="@+id/vendor"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/vendor"
         android:hint="@string/name" />
 
     <Spinner
+        android:id="@+id/gas_type_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/gas_type_spinner"
-        android:layout_below="@+id/name"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/name" />
 </RelativeLayout>
