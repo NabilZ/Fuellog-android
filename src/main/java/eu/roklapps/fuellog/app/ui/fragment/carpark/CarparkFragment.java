@@ -10,24 +10,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import eu.roklapps.fuellog.app.R;
 import eu.roklapps.fuellog.app.db.FuelDatabase;
-import eu.roklapps.fuellog.app.ui.fragment.dummy.DummyContent;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardListView;
 
 
-public class CarparkFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class CarparkFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
-    private AbsListView mListView;
-    private ListAdapter mAdapter;
+    private CardListView mListView;
+    private CardArrayAdapter mAdapter;
+    private LinearLayout mUndoBar;
+    private Button mUndoBarButton;
 
     public CarparkFragment() {
     }
@@ -37,6 +39,7 @@ public class CarparkFragment extends Fragment implements AbsListView.OnItemClick
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         new CarParkLoader().execute();
     }
 
@@ -60,8 +63,10 @@ public class CarparkFragment extends Fragment implements AbsListView.OnItemClick
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_carpark, container, false);
 
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        mListView.setOnItemClickListener(this);
+        mListView = (CardListView) view.findViewById(R.id.carrpark_card_listing);
+        mUndoBar = (LinearLayout) view.findViewById(R.id.undobar);
+        mUndoBar.setVisibility(View.INVISIBLE);
+        mUndoBarButton = (Button) view.findViewById(R.id.undobar_button);
 
         return view;
     }
@@ -83,20 +88,17 @@ public class CarparkFragment extends Fragment implements AbsListView.OnItemClick
         mListener = null;
     }
 
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
-    }
-
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
         if (emptyText instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     public interface OnFragmentInteractionListener {
@@ -106,7 +108,7 @@ public class CarparkFragment extends Fragment implements AbsListView.OnItemClick
     }
 
     private class CarParkLoader extends AsyncTask<Void, Void, Void> {
-        private List<String> mCars;
+        private ArrayList<Card> mCars;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -118,8 +120,7 @@ public class CarparkFragment extends Fragment implements AbsListView.OnItemClick
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, android.R.id.text1, mCars);
+            mAdapter = new CardArrayAdapter(getActivity(), mCars);
             mListView.setAdapter(mAdapter);
         }
     }

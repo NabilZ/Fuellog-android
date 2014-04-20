@@ -31,7 +31,7 @@ public class CarAddFragment extends Fragment implements View.OnClickListener{
         View fragmentView = inflater.inflate(R.layout.fragment_car_add, container, false);
 
         setupLayout(fragmentView);
-
+        setRetainInstance(true);
         return fragmentView;
     }
 

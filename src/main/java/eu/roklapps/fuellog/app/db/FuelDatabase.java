@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import eu.roklapps.fuellog.app.ui.card.CarCard;
+import it.gmariotti.cardslib.library.internal.Card;
 
 public class FuelDatabase extends SQLiteOpenHelper {
     public static final String FUEL_TABLE = "fuel";
@@ -19,11 +21,11 @@ public class FuelDatabase extends SQLiteOpenHelper {
     public static final String NAME = "name";
     public static final String CARS_TABLE = "cars";
     public static final String FUEL_EVENT_DATE = "eventDate";
-    private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "fuellog.db";
     public static final String CREATE_DATE = "createDate";
     public static final String MODIFY_DATE = "modifyDate";
     public static final String CARS_VENDOR = "vendor";
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "fuellog.db";
     private Context mContext;
 
     public FuelDatabase(Context context) {
@@ -61,14 +63,19 @@ public class FuelDatabase extends SQLiteOpenHelper {
 
     }
 
-    public List<String> getAllCars() {
+    public ArrayList<Card> getAllCars() {
         SQLiteDatabase database = this.getReadableDatabase();
-        List<String> cars = new ArrayList<>();
+        ArrayList<Card> cars = new ArrayList<>();
 
-        Cursor cursor = database.query(CARS_TABLE, new String[]{NAME}, null, null, NAME, null, null);
+        CarCard card;
+
+        Cursor cursor = database.query(CARS_TABLE, new String[]{NAME, CARS_VENDOR}, null, null, NAME, null, null);
         if (cursor.moveToFirst()) {
             do {
-                cars.add(cursor.getString(0));
+                card = new CarCard(mContext);
+                card.setName(cursor.getString(0));
+                card.setVendor(cursor.getString(1));
+                cars.add(card);
             } while (cursor.moveToNext());
         }
 
