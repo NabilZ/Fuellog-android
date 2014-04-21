@@ -3,7 +3,6 @@ package eu.roklapps.fuellog.app;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -17,14 +16,11 @@ import eu.roklapps.fuellog.app.ui.fragment.carpark.CarAddFragment;
 import eu.roklapps.fuellog.app.ui.fragment.carpark.CarparkFragment;
 import eu.roklapps.fuellog.app.util.Utils;
 
-import static eu.roklapps.fuellog.app.ui.fragment.FuelRecordingFragment.OnFragmentInteractionListener;
-
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         CarparkFragment.OnFragmentInteractionListener,
-        FuelListingFragmentFragment.OnFragmentInteractionListener,
-        OnFragmentInteractionListener {
+        FuelListingFragmentFragment.OnFragmentInteractionListener {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
@@ -111,11 +107,6 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override
