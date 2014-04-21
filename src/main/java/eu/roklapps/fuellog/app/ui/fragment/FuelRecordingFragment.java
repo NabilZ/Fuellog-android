@@ -2,7 +2,6 @@ package eu.roklapps.fuellog.app.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,20 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import eu.roklapps.fuellog.app.R;
-import eu.roklapps.fuellog.app.asyncs.FuelSaver;
 import eu.roklapps.fuellog.app.callbacks.AsyncTaskSaveResult;
 import eu.roklapps.fuellog.app.db.FuelDatabase;
 import eu.roklapps.fuellog.app.sharedprefs.Prefs;
+import eu.roklapps.fuellog.app.ui.card.CardNewFuelCar;
+import eu.roklapps.fuellog.app.ui.card.CardNewFuelRecord;
+import it.gmariotti.cardslib.library.view.CardView;
 
 
 public class FuelRecordingFragment extends Fragment implements View.OnClickListener,
@@ -33,14 +30,10 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
     private static final String RECORD_ID = "record_id";
 
     private long mRecordId;
-
-    private Spinner mCarSpinner;
-    private Spinner mGasType;
-    private Button mSaveRecord;
-    private EditText mPricePerUnit;
-    private EditText mMileage;
-    private EditText mBoughtFuel;
-    private TextView mEventDate;
+    private CardNewFuelCar mFuelCardCar;
+    private CardView mCardViewFuel;
+    private CardView mCardViewCar;
+    private CardNewFuelRecord mNewFuelRecord;
     private ArrayAdapter<String> mCarAdapter;
     private OnFragmentInteractionListener mListener;
 
@@ -63,6 +56,9 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
         }
         setRetainInstance(true);
         Prefs.setCarSubFragment(getActivity(), false);
+        mNewFuelRecord = new CardNewFuelRecord(getActivity());
+        mFuelCardCar = new CardNewFuelCar(getActivity());
+
         new CarParkLoader().execute();
     }
 
@@ -77,16 +73,11 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
     }
 
     private void setupLayout(View fragmentView) {
-        mSaveRecord = (Button) fragmentView.findViewById(R.id.save_changes);
-        mBoughtFuel = (EditText) fragmentView.findViewById(R.id.fuel);
-        mPricePerUnit = (EditText) fragmentView.findViewById(R.id.price_per_unit);
-        mMileage = (EditText) fragmentView.findViewById(R.id.mileage);
-        mCarSpinner = (Spinner) fragmentView.findViewById(R.id.car_spinner);
-        mGasType = (Spinner) fragmentView.findViewById(R.id.type_of_fuel_spinner);
-        mEventDate = (TextView) fragmentView.findViewById(R.id.dateselector);
+        mCardViewFuel = (CardView) fragmentView.findViewById(R.id.fuel_add);
+        mCardViewFuel.setCard(mNewFuelRecord);
 
-        mSaveRecord.setOnClickListener(this);
-        mEventDate.setOnClickListener(this);
+        mCardViewCar = (CardView) fragmentView.findViewById(R.id.car_information);
+        mCardViewCar.setCard(mFuelCardCar);
     }
 
     @Override
@@ -108,7 +99,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.save_changes) {
+        if (v.getId() == R.id.save_changes) {/*
             ContentValues contentValues = new ContentValues();
             contentValues.put(FuelDatabase.FUEL_MILEAGE, mMileage.getText().toString());
             contentValues.put(FuelDatabase.FUEL_PRICE_PER_UNIT, mPricePerUnit.getText().toString());
@@ -117,7 +108,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
             contentValues.put(FuelDatabase.FUEL_USED_CAR, mCarSpinner.getSelectedItemId());
             contentValues.put(FuelDatabase.GAS_TYPE_TABLE, mGasType.getSelectedItemId());
 
-            new FuelSaver(this, getActivity()).execute(contentValues);
+            new FuelSaver(this, getActivity()).execute(contentValues);*/
         } else {
 
         }
@@ -158,7 +149,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             mCarAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, mItems);
-            mCarSpinner.setAdapter(mCarAdapter);
+            mNewFuelRecord.getGasType().setAdapter(mCarAdapter);
         }
     }
 }

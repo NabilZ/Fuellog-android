@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -16,13 +14,12 @@ import java.util.List;
 
 import eu.roklapps.fuellog.app.R;
 import eu.roklapps.fuellog.app.db.FuelDatabase;
-import eu.roklapps.fuellog.app.ui.fragment.dummy.DummyContent;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
 
-public class FuelListingFragmentFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class FuelListingFragmentFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private CardArrayAdapter mAdapter;
@@ -61,7 +58,7 @@ public class FuelListingFragmentFragment extends Fragment implements AbsListView
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -69,14 +66,6 @@ public class FuelListingFragmentFragment extends Fragment implements AbsListView
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
     }
 
     public interface OnFragmentInteractionListener {
