@@ -85,7 +85,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.save_changes) {
+        if (v.getId() == R.id.save) {
             new ErrorValidator().execute();
         }
     }
@@ -127,6 +127,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
 
     private class ErrorValidator extends AsyncTask<Void, Void, Boolean> {
         private ContentValues mContentValues;
+        private EditText mFailedEmptyField;
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -151,14 +152,19 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if (result)
+            if (result) {
                 new FuelSaver(FuelRecordingFragment.this, getActivity()).execute(mContentValues);
+            } else {
+                Crouton.makeText(getActivity(), R.string.required_field, Style.ALERT).show();
+                mFailedEmptyField.requestFocus();
+            }
         }
 
         private boolean validationOfString(EditText editText, String contentValuesKey) {
             String content = editText.getText().toString();
 
             if (content.length() == 0 && content.isEmpty()) {
+                mFailedEmptyField = editText;
                 return true;
             }
             mContentValues.put(contentValuesKey, content);

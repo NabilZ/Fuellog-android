@@ -1,6 +1,5 @@
 package eu.roklapps.fuellog.app.ui.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,8 +19,6 @@ import it.gmariotti.cardslib.library.view.CardListView;
 
 
 public class FuelListingFragmentFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
-
     private CardArrayAdapter mAdapter;
     private CardListView mCardListView;
     private LinearLayout mUndoBar;
@@ -33,43 +30,22 @@ public class FuelListingFragmentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
-        new FuelHistoryLoader().execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fuellistingfragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_fuellistingfragment_list, container, false);
 
         mCardListView = (CardListView) view.findViewById(R.id.fuel_card_listing);
         mUndoBar = (LinearLayout) view.findViewById(R.id.undobar);
         mUndoBarButton = (Button) view.findViewById(R.id.undobar_button);
 
         mUndoBar.setVisibility(View.INVISIBLE);
-
+        new FuelHistoryLoader().execute();
         return view;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String id);
     }
 
     private class FuelHistoryLoader extends AsyncTask<Void, Void, Void> {

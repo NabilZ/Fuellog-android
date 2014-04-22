@@ -24,6 +24,9 @@
     <string name="car_add_error_everything_empty">Vendor and name are required fields</string>
     <string name="car_vendor_empty">Car vendor is required</string>
     <string name="car_name_empty">Car name is required</string>
+
+    <string name="required_field">Field is required</string>
+
     <string name="car_informations">Car</string>
     <string name="fuel_informations">Fuel</string>
 

@@ -19,8 +19,7 @@ import eu.roklapps.fuellog.app.util.Utils;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        CarparkFragment.OnFragmentInteractionListener,
-        FuelListingFragmentFragment.OnFragmentInteractionListener {
+        CarparkFragment.OnFragmentInteractionListener {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
