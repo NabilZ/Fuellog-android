@@ -106,9 +106,17 @@ public class FuelDatabase extends SQLiteOpenHelper {
     }
 
     public void saveNewCar(ContentValues contentValues) {
+        saveOperation(contentValues, CARS_TABLE);
+    }
+
+    public void saveNewFuelRecord(ContentValues contentValues) {
+        saveOperation(contentValues, FUEL_TABLE);
+    }
+
+    private void saveOperation(ContentValues contentValues, String tableName) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
-        sqLiteDatabase.insert(CARS_TABLE, null, contentValues);
+        sqLiteDatabase.insert(tableName, null, contentValues);
 
         sqLiteDatabase.close();
     }
@@ -125,10 +133,13 @@ public class FuelDatabase extends SQLiteOpenHelper {
             do {
                 card = new CardFuelListing(mContext);
                 card.setDateText(cursor.getString(0));
-                card.setCarText(cursor.getString(2));
+                card.setCarText(String.valueOf(cursor.getString(2)));
 
                 header = new CardHeader(mContext);
                 header.setTitle(String.valueOf(cursor.getFloat(1)));
+                card.addCardHeader(header);
+
+                cards.add(card);
             } while (cursor.moveToNext());
         }
         database.close();

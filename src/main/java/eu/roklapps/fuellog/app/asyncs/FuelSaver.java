@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import eu.roklapps.fuellog.app.callbacks.AsyncTaskSaveResult;
+import eu.roklapps.fuellog.app.db.FuelDatabase;
 
 public class FuelSaver extends AsyncTask<ContentValues, Void, Void> {
     private AsyncTaskSaveResult mResult;
@@ -17,6 +18,11 @@ public class FuelSaver extends AsyncTask<ContentValues, Void, Void> {
 
     @Override
     protected Void doInBackground(ContentValues... params) {
+        FuelDatabase database = new FuelDatabase(mContext);
+
+        database.saveNewFuelRecord(params[0]);
+
+        database.close();
         return null;
     }
 
