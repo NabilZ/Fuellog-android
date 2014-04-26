@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/fuel"
-        android:layout_width="wrap_content"
+    <eu.roklapps.fuellog.app.ui.controls.floatingtext.FloatLabelLayout
+        android:id="@+id/fuelFloat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="@string/bought_fuel"
-        android:inputType="numberDecimal" />
+        app:floatLabelTextAppearance="@style/TextAppearance.YourApp.FloatLabel">
 
-    <EditText
-        android:id="@+id/price_per_unit"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/fuel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="@string/bought_fuel"
+            android:inputType="numberDecimal" />
+    </eu.roklapps.fuellog.app.ui.controls.floatingtext.FloatLabelLayout>
+
+    <eu.roklapps.fuellog.app.ui.controls.floatingtext.FloatLabelLayout
+        android:id="@+id/priceFloat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/fuel"
-        android:ems="10"
-        android:hint="@string/price_per_unit"
-        android:inputType="numberDecimal" />
+        android:layout_below="@+id/fuelFloat"
+        app:floatLabelTextAppearance="@style/TextAppearance.YourApp.FloatLabel">
+
+        <EditText
+            android:id="@+id/price_per_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/fuelFloat"
+            android:ems="10"
+            android:hint="@string/price_per_unit"
+            android:inputType="numberDecimal" />
+    </eu.roklapps.fuellog.app.ui.controls.floatingtext.FloatLabelLayout>
 
     <Spinner
         android:id="@+id/type_of_fuel_spinner"
@@ -36,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/price_per_unit"
+        android:layout_below="@+id/priceFloat"
         android:entries="@array/gas_types"
         android:prompt="@string/gas_type" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,30 +12,38 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/mileage" />
+        android:layout_below="@+id/mileageFloat" />
 
-    <EditText
-        android:id="@+id/mileage"
-        android:layout_width="wrap_content"
+    <eu.roklapps.fuellog.app.ui.controls.floatingtext.FloatLabelLayout
+        android:id="@+id/mileageFloat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/type_of_fuel_spinner"
-        android:ems="10"
-        android:hint="@string/current_mileage"
-        android:inputType="numberDecimal" />
+        android:layout_alignParentTop="true"
+        app:floatLabelTextAppearance="@style/TextAppearance.YourApp.FloatLabel">
+
+        <EditText
+            android:id="@+id/mileage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/type_of_fuel_spinner"
+            android:ems="10"
+            android:hint="@string/current_mileage"
+            android:inputType="numberDecimal" />
+    </eu.roklapps.fuellog.app.ui.controls.floatingtext.FloatLabelLayout>
 
     <EditText
         android:id="@+id/dateselector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/car_spinner"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/car_spinner"
         android:clickable="true"
         android:text="New Text" />
 
