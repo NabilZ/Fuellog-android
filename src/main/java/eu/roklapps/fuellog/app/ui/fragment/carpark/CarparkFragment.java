@@ -110,8 +110,6 @@ public class CarparkFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String id);
-
         public void onAddNewCar();
     }
 

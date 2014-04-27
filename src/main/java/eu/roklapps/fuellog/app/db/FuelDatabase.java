@@ -29,7 +29,7 @@ public class FuelDatabase extends SQLiteOpenHelper {
     public static final String CARS_VENDOR = "vendor";
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "fuellog.db";
-    private Context mContext;
+    private final Context mContext;
 
     public FuelDatabase(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

@@ -15,11 +15,7 @@ public class CardNewFuelRecord extends Card {
     private EditText mPricePerUnit;
 
     public CardNewFuelRecord(Context context) {
-        this(context, R.layout.card_add_fuel_informations);
-    }
-
-    public CardNewFuelRecord(Context context, int innerLayout) {
-        super(context, innerLayout);
+        super(context, R.layout.card_add_fuel_informations);
     }
 
     public Spinner getGasType() {

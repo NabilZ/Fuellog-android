@@ -15,11 +15,7 @@ public class CarAddCard extends Card {
     private Spinner mGasType;
 
     public CarAddCard(Context context) {
-        this(context, R.layout.card_car_add);
-    }
-
-    public CarAddCard(Context context, int innerLayout) {
-        super(context, innerLayout);
+        super(context, R.layout.card_car_add);
     }
 
     public EditText getVendor() {

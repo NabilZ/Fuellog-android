@@ -15,11 +15,7 @@ public class CardNewFuelCar extends Card {
     private EditText mMileAge;
 
     public CardNewFuelCar(Context context) {
-        this(context, R.layout.card_add_fuel_car);
-    }
-
-    public CardNewFuelCar(Context context, int innerLayout) {
-        super(context, innerLayout);
+        super(context, R.layout.card_add_fuel_car);
     }
 
     public EditText getDateSelector() {

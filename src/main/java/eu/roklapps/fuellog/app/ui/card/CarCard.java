@@ -16,11 +16,7 @@ public class CarCard extends Card {
     private String mName;
 
     public CarCard(Context context) {
-        this(context, R.layout.card_carpark_single);
-    }
-
-    private CarCard(Context context, int innerLayout) {
-        super(context, innerLayout);
+        super(context, R.layout.card_carpark_single);
     }
 
     public TextView getCarVendorTitle() {

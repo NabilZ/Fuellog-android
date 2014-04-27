@@ -40,7 +40,6 @@ import static android.view.View.OnClickListener;
 
 @SuppressWarnings("EmptyMethod")
 public class CarAddFragment extends Fragment implements OnClickListener {
-    private static final String TAG = "CarAddFragment";
     private CarAddCard mCard;
     private Button mSaveButton;
 

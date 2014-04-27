@@ -15,11 +15,7 @@ public class CardFuelListing extends Card {
     private String mCarText;
 
     public CardFuelListing(Context context) {
-        this(context, R.layout.card_fuellisting_single);
-    }
-
-    public CardFuelListing(Context context, int innerLayout) {
-        super(context, innerLayout);
+        super(context, R.layout.card_fuellisting_single);
     }
 
     public void setDateText(String mDateText) {

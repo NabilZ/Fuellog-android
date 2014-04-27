@@ -46,9 +46,8 @@ public final class FloatLabelLayout extends FrameLayout {
     private static final long ANIMATION_DURATION = 150;
 
     private static final float DEFAULT_PADDING_LEFT_RIGHT_DP = 12f;
-
+    private final TextView mLabel;
     private EditText mEditText;
-    private TextView mLabel;
 
     public FloatLabelLayout(Context context) {
         this(context, null);
