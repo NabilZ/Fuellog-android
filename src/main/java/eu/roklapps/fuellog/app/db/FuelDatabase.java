@@ -15,18 +15,18 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 
 public class FuelDatabase extends SQLiteOpenHelper {
-    public static final String FUEL_TABLE = "fuel";
     public static final String FUEL_PRICE_PER_UNIT = "pricePerUnit";
     public static final String FUEL_TOTAL_BOUGHT_FUEL = "totalBoughtFuel";
     public static final String FUEL_MILEAGE = "mileage";
     public static final String FUEL_USED_CAR = "usedCar";
     public static final String GAS_TYPE_TABLE = "gasType";
     public static final String NAME = "name";
-    public static final String CARS_TABLE = "cars";
     public static final String FUEL_EVENT_DATE = "eventDate";
-    public static final String CREATE_DATE = "createDate";
-    public static final String MODIFY_DATE = "modifyDate";
     public static final String CARS_VENDOR = "vendor";
+    private static final String FUEL_TABLE = "fuel";
+    private static final String CARS_TABLE = "cars";
+    private static final String CREATE_DATE = "createDate";
+    private static final String MODIFY_DATE = "modifyDate";
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "fuellog.db";
     private final Context mContext;
@@ -49,12 +49,6 @@ public class FuelDatabase extends SQLiteOpenHelper {
                         GAS_TYPE_TABLE + " integer," +
                         FUEL_USED_CAR + " integer not null);"
         );
-
-        db.execSQL("create table " + CARS_TABLE + "(" +
-                "_id integer primary key autoincrement, " +
-                NAME + " text, " +
-                GAS_TYPE_TABLE + " integer," +
-                CARS_VENDOR + " text);");
 
         db.execSQL("create table " + GAS_TYPE_TABLE + "(" +
                 "_id integer primary key autoincrement," +
