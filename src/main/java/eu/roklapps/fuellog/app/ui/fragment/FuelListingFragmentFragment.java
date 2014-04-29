@@ -56,7 +56,6 @@ public class FuelListingFragmentFragment extends Fragment {
             FuelDatabase database = new FuelDatabase(getActivity());
 
             mList = database.getAllFuelEntries();
-
             database.close();
             return null;
         }

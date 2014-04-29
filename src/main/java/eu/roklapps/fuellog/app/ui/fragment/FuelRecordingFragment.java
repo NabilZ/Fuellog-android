@@ -121,7 +121,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             mCarAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, mItems);
-            mNewFuelRecord.getGasType().setAdapter(mCarAdapter);
+            mFuelCardCar.getCarSpinner().setAdapter(mCarAdapter);
         }
     }
 
@@ -144,8 +144,10 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
             if (validationOfString(mFuelCardCar.getDateSelector(), FuelDatabase.FUEL_EVENT_DATE))
                 return false;
 
+            if (validationOfString(mNewFuelRecord.getGasType(), FuelDatabase.GAS_TYPE_TABLE))
+                return false;
+
             mContentValues.put(FuelDatabase.FUEL_USED_CAR, mFuelCardCar.getCarSpinner().getSelectedItemId());
-            mContentValues.put(FuelDatabase.GAS_TYPE_TABLE, mNewFuelRecord.getGasType().getSelectedItemId());
 
             return true;
         }
@@ -155,7 +157,7 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
             if (result) {
                 new FuelSaver(FuelRecordingFragment.this, getActivity()).execute(mContentValues);
             } else {
-                Crouton.makeText(getActivity(), R.string.required_field, Style.ALERT).show();
+                Crouton.makeText(getActivity(), "'" + mFailedEmptyField.getHint() + "' " + getResources().getString(R.string.required_field), Style.ALERT).show();
                 mFailedEmptyField.requestFocus();
             }
         }

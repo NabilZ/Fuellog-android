@@ -141,4 +141,14 @@ public class FuelDatabase extends SQLiteOpenHelper {
 
         return cards;
     }
+
+    public Cursor getAllFuelEntriesAsCursor() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.query(FUEL_TABLE, new String[]{FUEL_EVENT_DATE, FUEL_TOTAL_BOUGHT_FUEL, FUEL_USED_CAR}, null, null, null, null, FUEL_EVENT_DATE + " DESC");
+    }
+
+    public Cursor getAllCarsAsCursor() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.query(CARS_TABLE, new String[]{NAME, CARS_VENDOR}, null, null, NAME, null, null);
+    }
 }

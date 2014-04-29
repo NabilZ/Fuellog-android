@@ -75,8 +75,8 @@
     </style>
 
 
-    <style name="TextAppearance.YourApp.FloatLabel" parent="android:TextAppearance.Small">
-        <item name="android:textColor">@color/float_colors</item>
+    <style name="TextAppearance.FloatLabel" parent="android:TextAppearance.Small">
+    <item name="android:textColor">@color/float_colors</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
     </style>
