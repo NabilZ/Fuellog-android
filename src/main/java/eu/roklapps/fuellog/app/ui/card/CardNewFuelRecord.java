@@ -33,6 +33,6 @@ public class CardNewFuelRecord extends Card {
     public void setupInnerViewElements(ViewGroup parent, View view) {
         mPricePerUnit = (EditText) parent.findViewById(R.id.price_per_unit);
         mFuel = (EditText) parent.findViewById(R.id.fuel);
-        mGasType = (EditText) parent.findViewById(R.id.type_of_fuel_spinner);
+        mGasType = (EditText) parent.findViewById(R.id.gastype);
     }
 }
