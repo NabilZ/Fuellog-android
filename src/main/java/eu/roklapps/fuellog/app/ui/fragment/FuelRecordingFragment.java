@@ -152,10 +152,19 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
             return true;
         }
 
+        private void clearAllTextFields() {
+            mFuelCardCar.getMileAge().getEditableText().clear();
+            mNewFuelRecord.getPricePerUnit().getEditableText().clear();
+            mNewFuelRecord.getFuel().getEditableText().clear();
+            mFuelCardCar.getDateSelector().getEditableText().clear();
+            mNewFuelRecord.getGasType().getEditableText().clear();
+        }
+
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
                 new FuelSaver(FuelRecordingFragment.this, getActivity()).execute(mContentValues);
+                clearAllTextFields();
             } else {
                 Crouton.makeText(getActivity(), "'" + mFailedEmptyField.getHint() + "' " + getResources().getString(R.string.required_field), Style.ALERT).show();
                 mFailedEmptyField.requestFocus();
