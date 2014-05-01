@@ -132,19 +132,19 @@ public class FuelRecordingFragment extends Fragment implements View.OnClickListe
         @Override
         protected Boolean doInBackground(Void... params) {
             mContentValues = new ContentValues();
-
-            if (validationOfString(mFuelCardCar.getMileAge(), FuelDatabase.FUEL_MILEAGE))
-                return false;
-            if (validationOfString(mNewFuelRecord.getPricePerUnit(), FuelDatabase.FUEL_PRICE_PER_UNIT))
-                return false;
-
             if (validationOfString(mNewFuelRecord.getFuel(), FuelDatabase.FUEL_TOTAL_BOUGHT_FUEL))
                 return false;
 
-            if (validationOfString(mFuelCardCar.getDateSelector(), FuelDatabase.FUEL_EVENT_DATE))
+            if (validationOfString(mNewFuelRecord.getPricePerUnit(), FuelDatabase.FUEL_PRICE_PER_UNIT))
                 return false;
 
             if (validationOfString(mNewFuelRecord.getGasType(), FuelDatabase.GAS_TYPE_TABLE))
+                return false;
+
+            if (validationOfString(mFuelCardCar.getMileAge(), FuelDatabase.FUEL_MILEAGE))
+                return false;
+
+            if (validationOfString(mFuelCardCar.getDateSelector(), FuelDatabase.FUEL_EVENT_DATE))
                 return false;
 
             mContentValues.put(FuelDatabase.FUEL_USED_CAR, mFuelCardCar.getCarSpinner().getSelectedItemId());
